@@ -128,6 +128,18 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.13</version>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://s01.oss.sonatype.org</nexusUrl>
+          <connectTimeout>600000</connectTimeout>
+          <readTimeout>600000</readTimeout>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
