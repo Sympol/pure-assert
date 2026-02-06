@@ -4,7 +4,7 @@
   <groupId>io.github.sympol</groupId>
   <artifactId>pure-assert</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
   <name>pure-assert</name>
   <description>A lightweight, zero-dependency, expressive Java library for pure input assertions.</description>
   <url>https://github.com/sympol/pure-assert</url>
@@ -34,8 +34,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>15</maven.compiler.source>
-    <maven.compiler.target>15</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
