@@ -4,9 +4,9 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Java](https://img.shields.io/badge/Java-17%2B-orange.svg)](https://openjdk.org/)
 
-A lightweight, **zero-dependency**, expressive Java library for pure input assertions.
+A lightweight, expressive Java library for pure input assertions, designed for domains that choose to be **technically agnostic**.
 
-Ensure your code is **Always Valid** with a fluent and readable API, perfect for domain invariants or input validation in any layer.
+Ensure your code is **Always Valid** with a fluent API that prioritizes **expressiveness, longevity, and semantic error richness** over framework-driven validation.
 
 ## ✨ Features
 
@@ -14,7 +14,7 @@ Ensure your code is **Always Valid** with a fluent and readable API, perfect for
 - 🎯 **Typed Exceptions** – Get `StringTooShortException` instead of `IllegalArgumentException`
 - 📝 **Rich Metadata** – Exceptions contain field name, invalid value, and constraints
 - 🔗 **Fluent API** – Chainable, expressive, self-documenting code
-- 🏗️ **DDD Ready** – Perfect for domain invariants in Clean Architecture
+- 🏗️ **DDD Optimized** – Perfect for critical business invariants
 
 ## 📦 Installation
 
@@ -81,11 +81,10 @@ Assert.field("username", username)
 
 | Feature | **Pure Assert** | Guava / Apache | Jakarta Validator |
 |:--------|:---------------:|:--------------:|:-----------------:|
-| **Dependencies** | **Zero** | Heavy | Heavy |
-| **API Style** | Fluent | Static | Annotations |
-| **Typed Exceptions** | ✅ Yes | ❌ No | ❌ No |
-| **Rich Metadata** | ✅ Yes | Limited | Yes |
-| **Clean Domain** | ✅ Perfect | Acceptable | Poor |
+| **Exceptions** | **Typed & Rich** | Generic | ConstraintViolation |
+| **Validation** | **Immediate** | Immediate | Deferred |
+| **Dependencies** | **Zero** | Stable / Mature | Specification |
+| **Primary Use** | **Core Domain** | Utility | Infrastructure / UX |
 
 ## 🧠 When Should I Use Pure Assert?
 
@@ -93,28 +92,36 @@ Assert.field("username", username)
 <tr>
 <td width="50%">
 
-### ✅ Good Fit
+### ✅ Strategic Choice
 
-- Domain invariants
-- Constructor validation
-- Business rules inside entities or value objects
-- Clean / Hexagonal / DDD-inspired architectures
+- **Complex business core**
+- Long-lived applications (5+ years)
+- Critical invariants (finance, legal, health)
+- DDD / Hexagonal architectures
 
 </td>
 <td width="50%">
 
-### 🚫 Not a Good Fit
+### 🚫 Consider Alternatives
 
-- DTO validation for REST APIs
-- UI or form validation
-- Internationalized error messages
-- Aggregating multiple validation errors
+- Simple **CRUD** / Data-centric apps
+- Strong **time-to-market** pressure
+- Need for **error aggregation**
+- Highly localized/i18n UI forms
 
 </td>
 </tr>
 </table>
 
-> 💡 For API or UI validation, consider **Jakarta Validation** (Bean Validation) instead.
+> 💡 For peripheral validation (DTOs, UI), **Jakarta Validation** remains the standard. For core domain invariants where "Always Valid" is key, `pure-assert` provides stronger guarantees.
+
+## 🏛️ Maintenance & Lock-in
+
+We understand that adding a dependency to your domain is a major architectural decision.
+
+- **Minimalist API**: The surface is intentionally small to limit breaking changes.
+- **Easy Internalization**: The core logic is under 2000 lines of pure Java—if the library is ever abandoned, it is trivial to copy the source into your project.
+- **Semantic Versioning**: We strictly follow SemVer. No breaking changes without a major version bump.
 
 
 ## 🏛️ Clean Architecture Integration
@@ -150,6 +157,11 @@ To use this library while enforcing a "Zero Dependency" rule in your domain laye
     </executions>
 </plugin>
 ```
+
+## 📖 Deep Dive
+
+For a detailed technical explanation of the philosophy behind this library and a comparison with Jakarta Validation/Guava, read our featured article:
+**[Mastering Domain Invariants: How pure-assert enhances DDD and Clean Architecture](https://symplice.hashnode.dev/mastering-domain-invariants-how-pure-assert-enhances-ddd-and-clean-architecture)**
 
 ## 🤝 Contributing
 
