@@ -437,4 +437,56 @@ class AssertTest {
                 .isIn(Status.ACTIVE, Status.INACTIVE, Status.PENDING));
     }
 
+    // ByteArrayAsserter
+    @Test
+    void testByteArrayAsserter_notNull_valid() {
+        assertDoesNotThrow(() -> Assert.field("data", new byte[]{1, 2, 3}).notNull());
+    }
+
+    @Test
+    void testByteArrayAsserter_notNull_invalid() {
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("data", (byte[]) null).notNull());
+    }
+
+    @Test
+    void testByteArrayAsserter_notEmpty_valid() {
+        assertDoesNotThrow(() -> Assert.field("data", new byte[]{1}).notEmpty());
+    }
+
+    @Test
+    void testByteArrayAsserter_notEmpty_invalid() {
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("data", new byte[]{}).notEmpty());
+    }
+
+    @Test
+    void testByteArrayAsserter_maxSize_valid() {
+        assertDoesNotThrow(() -> Assert.field("data", new byte[]{1, 2}).maxSize(3));
+    }
+
+    @Test
+    void testByteArrayAsserter_maxSize_invalid() {
+        assertThrows(TooManyElementsException.class, () -> Assert.field("data", new byte[]{1, 2, 3}).maxSize(2));
+    }
+
+    @Test
+    void testByteArrayAsserter_satisfies_valid() {
+        assertDoesNotThrow(() -> Assert.field("data", new byte[]{1, 2, 3})
+                .satisfies(d -> d.length >= 2, "Must have at least 2 bytes"));
+    }
+
+    @Test
+    void testByteArrayAsserter_satisfies_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("data", new byte[]{1})
+                        .satisfies(d -> d.length >= 2, "Must have at least 2 bytes"));
+    }
+
+    @Test
+    void testByteArrayAsserter_chained() {
+        assertDoesNotThrow(() -> Assert.field("data", new byte[]{1, 2, 3})
+                .notNull()
+                .notEmpty()
+                .maxSize(10));
+    }
+
 }

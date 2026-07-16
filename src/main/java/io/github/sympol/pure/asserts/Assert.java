@@ -376,6 +376,33 @@ public final class Assert {
     }
 
     /**
+     * Create a fluent asserter for byte arrays
+     *
+     * <p>
+     * Usage:
+     * </p>
+     *
+     * <pre>
+     * <code>
+     * Assert.field("data", data)
+     *   .notNull()
+     *   .notEmpty()
+     *   .maxSize(1024);
+     * </code>
+     * </pre>
+     *
+     * @param field
+     *              name of the field to check (will be displayed in exception
+     *              message)
+     * @param input
+     *              byte array to check
+     * @return A {@link ByteArrayAsserter} for this field and value
+     */
+    public static ByteArrayAsserter field(String field, byte[] input) {
+        return new ByteArrayAsserter(field, input);
+    }
+
+    /**
      * Create a fluent asserter for enum values
      *
      * <p>
@@ -1918,6 +1945,104 @@ public final class Assert {
          *                                        false
          */
         public EnumAsserter<E> satisfies(Predicate<E> condition, String errorMessage) {
+            if (value == null || !condition.test(value)) {
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+            }
+            return this;
+        }
+    }
+
+    /**
+     * Asserter dedicated to byte array assertions
+     */
+    public static final class ByteArrayAsserter {
+
+        private final String field;
+        private final byte[] value;
+
+        private ByteArrayAsserter(String field, byte[] value) {
+            this.field = field;
+            this.value = value;
+        }
+
+        /**
+         * Get the validated value.
+         *
+         * @return The validated value
+         */
+        public byte[] value() {
+            return value;
+        }
+
+        /**
+         * Ensure that the value is not null
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         */
+        public ByteArrayAsserter notNull() {
+            Assert.notNull(field, value);
+            return this;
+        }
+
+        /**
+         * Ensure that the value is not empty (null or zero-length)
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or empty
+         */
+        public ByteArrayAsserter notEmpty() {
+            notNull();
+
+            if (value.length == 0) {
+                throw MissingMandatoryValueException.forEmptyValue(field);
+            }
+
+            return this;
+        }
+
+        /**
+         * Ensure that the size of the byte array is not over the given size
+         *
+         * @param maxSize
+         *                inclusive max size of the byte array
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the expected size is strictly
+         *                                        positive and the value is null
+         * @throws TooManyElementsException
+         *                                        if the size of the value is over the
+         *                                        max size
+         */
+        public ByteArrayAsserter maxSize(int maxSize) {
+            if (maxSize <= 0 && value == null) {
+                return this;
+            }
+
+            notNull();
+
+            if (value.length > maxSize) {
+                throw TooManyElementsException.builder().field(field).maxSize(maxSize).size(value.length).build();
+            }
+
+            return this;
+        }
+
+        /**
+         * Ensure that the value satisfies the given condition
+         *
+         * @param condition
+         *                     condition to satisfy
+         * @param errorMessage
+         *                     error message if not satisfied
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or condition is
+         *                                        false
+         */
+        public ByteArrayAsserter satisfies(Predicate<byte[]> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
             }
