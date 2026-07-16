@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Collection assertions: `minSize()`, `contains()`, `uniqueElements()`
 - Map assertions: `minSize()`, `containsKey()`, `containsValue()`
 - Date assertions: `afterOrAt()`, `beforeOrAt()`, `isBetween()` on LocalDate and LocalDateTime
+- Enum assertions: `isAnyOf()`, `isNoneOf()` aliases, `name()`, `ordinal()` for further validation
 - `TooFewElementsException` with `TOO_FEW_ELEMENTS` error type
 - `UUID_IS_NIL` and `UUID_VERSION_MISMATCH` error types in `AssertionErrorType` enum
 - `satisfies()` method on `ArrayAsserter` for consistency with other asserters
