@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AssertTest {
@@ -642,6 +643,26 @@ class AssertTest {
     void testBigDecimalAsserter_isLessThanOrEqualTo_invalid() {
         BigDecimal val = new BigDecimal("10.6");
         assertThrows(NumberValueTooHighException.class, () -> Assert.field("price", val).isLessThanOrEqualTo(new BigDecimal("10.5")));
+    }
+
+    // toField() - alias for value()
+    @Test
+    void testStringAsserter_toField() {
+        String result = Assert.field("name", "Alice").notBlank().toField();
+        assertEquals("Alice", result);
+    }
+
+    @Test
+    void testIntegerAsserter_toField() {
+        Integer result = Assert.field("age", 25).min(0).toField();
+        assertEquals(25, result);
+    }
+
+    @Test
+    void testCollectionAsserter_toField() {
+        Collection<String> col = List.of("a", "b");
+        Collection<String> result = Assert.field("list", col).notEmpty().toField();
+        assertEquals(col, result);
     }
 
 }

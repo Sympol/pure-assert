@@ -504,6 +504,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public String toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the value is not null
          *
          * @return The current asserter
@@ -657,6 +667,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Integer toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
@@ -765,6 +785,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Long toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
@@ -869,6 +899,16 @@ public final class Assert {
         }
 
         public Float value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Float toField() {
             return value;
         }
 
@@ -1041,6 +1081,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Double toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
@@ -1205,6 +1255,16 @@ public final class Assert {
         }
 
         public BigDecimal value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public BigDecimal toField() {
             return value;
         }
 
@@ -1478,6 +1538,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Collection<T> toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the value is not null
          *
          * @return The current asserter
@@ -1575,6 +1645,16 @@ public final class Assert {
         }
 
         public T[] value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public T[] toField() {
             return value;
         }
 
@@ -1678,6 +1758,16 @@ public final class Assert {
         }
 
         public Instant value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Instant toField() {
             return value;
         }
 
@@ -1842,6 +1932,16 @@ public final class Assert {
             return value;
         }
 
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public LocalDate toField() {
+            return value;
+        }
+
         public LocalDateAsserter notNull() {
             Assert.notNull(field, value);
             return this;
@@ -1920,6 +2020,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public UUID toField() {
+            return value;
+        }
+
+        /**
          * Ensure the UUID is not null
          */
         public UUIDAsserter notNull() {
@@ -1981,6 +2091,16 @@ public final class Assert {
             return value;
         }
 
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public Map<?, ?> toField() {
+            return value;
+        }
+
         public MapAsserter notNull() {
             Assert.notNull(field, value);
             return this;
@@ -2031,6 +2151,16 @@ public final class Assert {
          * @return The validated value
          */
         public E value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public E toField() {
             return value;
         }
 
@@ -2133,6 +2263,16 @@ public final class Assert {
         }
 
         /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public byte[] toField() {
+            return value;
+        }
+
+        /**
          * Ensure that the value is not null
          *
          * @return The current asserter
@@ -2229,6 +2369,16 @@ public final class Assert {
          * @return The validated value
          */
         public LocalDateTime value() {
+            return value;
+        }
+
+        /**
+         * Alias for {@link #value()}.
+         * Use this to signal that the validated value is assigned to a field.
+         *
+         * @return The validated value
+         */
+        public LocalDateTime toField() {
             return value;
         }
 
