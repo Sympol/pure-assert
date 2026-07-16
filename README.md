@@ -47,12 +47,12 @@ public class User {
         this.email = Assert.field("email", email)
                         .notBlank()
                         .email()
-                        .value(); // Returns the validated value
+                        .toField(); // Returns the validated value
 
         this.age = Assert.field("age", age)
                         .min(18)
                         .max(120)
-                        .value();
+                        .toField();
     }
 }
 ```
@@ -218,16 +218,27 @@ For a detailed technical explanation of the philosophy behind this library and a
 
 ### 1.1.0 (2026-07-16)
 
-**New features:**
-- `EnumAsserter` — `field(String, Enum)` with `isIn()`, `isNotIn()`, `satisfies()`
+**New types:**
+- `EnumAsserter` — `field(String, Enum)` with `isIn()`, `isNotIn()`, `isAnyOf()`, `isNoneOf()`, `name()`, `ordinal()`, `satisfies()`
 - `ByteArrayAsserter` — `field(String, byte[])` with `notEmpty()`, `maxSize()`, `satisfies()`
-- `LocalDateTimeAsserter` — `field(String, LocalDateTime)` with `inPast()`, `inFuture()`, `after()`, `before()`, `satisfies()`
+- `LocalDateTimeAsserter` — `field(String, LocalDateTime)` with `inPast()`, `inFuture()`, `after()`, `before()`, `afterOrAt()`, `beforeOrAt()`, `isBetween()`, `satisfies()`
+
+**New methods on existing types:**
+- `isGreaterThanOrEqualTo(n)` / `isLessThanOrEqualTo(n)` on all numeric asserters
+- `toField()` alias on all asserters for final field assignment
+- `withMessage(String)` for custom error messages (String, Integer, Long, Float, Double, BigDecimal)
+- `minSize()`, `contains()`, `uniqueElements()` on CollectionAsserter
+- `minSize()`, `containsKey()`, `containsValue()` on MapAsserter
+- `afterOrAt()`, `beforeOrAt()`, `isBetween()` on LocalDate and LocalDateTime
+- `satisfies()` on ArrayAsserter
+
+**New exceptions:**
+- `TooFewElementsException` with `TOO_FEW_ELEMENTS` error type
 
 **Fixes:**
 - Javadoc typos corrected (~126 occurrences)
 - `LocalDateAsserter` now uses proper time exceptions instead of deprecated `RequiredValueException`
 - UUID exceptions now return dedicated error types (`UUID_IS_NIL`, `UUID_VERSION_MISMATCH`)
-- `ArrayAsserter` now supports `satisfies()`
 
 See [CHANGELOG.md](CHANGELOG.md) for full details.
 
