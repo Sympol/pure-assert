@@ -68,7 +68,7 @@ public class User {
 | **Maps** | `notEmpty()`, `minSize(n)`, `maxSize(n)`, `containsKey(key)`, `containsValue(value)`, `satisfies(predicate)` |
 | **Enums** | `isIn(values...)`, `isNotIn(values...)`, `satisfies(predicate)` |
 | **byte[]** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
-| **Dates** | `inPast()`, `inFuture()`, `after(date)`, `before(date)`, `satisfies(predicate)` |
+| **Dates** | `inPast()`, `inFuture()`, `after(date)`, `before(date)`, `afterOrAt(date)`, `beforeOrAt(date)`, `isBetween(start, end)`, `satisfies(predicate)` |
 | **UUID** | `isVersion(v)`, `isNotNil()`, `satisfies(predicate)` |
 
 ## 🎯 Custom Validations
