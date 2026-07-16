@@ -24,14 +24,14 @@ Ensure your code is **Always Valid** with a fluent API that prioritizes **expres
 <dependency>
   <groupId>io.github.sympol</groupId>
   <artifactId>pure-assert</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-implementation 'io.github.sympol:pure-assert:1.0.0'
+implementation 'io.github.sympol:pure-assert:1.1.0'
 ```
 
 ## 🚀 Quick Start
@@ -63,9 +63,13 @@ public class User {
 |------|-------------------|
 | **Strings** | `notBlank()`, `minLength(n)`, `maxLength(n)`, `matches(pattern)`, `email()`, `url()`, `satisfies(predicate)` |
 | **Numbers** | `min(n)`, `max(n)`, `positive()`, `strictlyPositive()`, `satisfies(predicate)` |
-| **Collections** | `notEmpty()`, `maxSize(n)`, `noNullElement()` |
-| **Dates** | `inPast()`, `inFuture()`, `after(date)`, `before(date)` |
-| **UUID** | `isValid()`, `isVersion(v)`, `isNotNil()` |
+| **Collections** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
+| **Arrays** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
+| **Maps** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
+| **Enums** | `isIn(values...)`, `isNotIn(values...)`, `satisfies(predicate)` |
+| **byte[]** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
+| **Dates** | `inPast()`, `inFuture()`, `after(date)`, `before(date)`, `satisfies(predicate)` |
+| **UUID** | `isVersion(v)`, `isNotNil()`, `satisfies(predicate)` |
 
 ## 🎯 Custom Validations
 
@@ -162,6 +166,29 @@ To use this library while enforcing a "Zero Dependency" rule in your domain laye
 
 For a detailed technical explanation of the philosophy behind this library and a comparison with Jakarta Validation/Guava, read our featured article:
 **[Mastering Domain Invariants: How pure-assert enhances DDD and Clean Architecture](https://symplice.hashnode.dev/mastering-domain-invariants-how-pure-assert-enhances-ddd-and-clean-architecture)**
+
+## 📋 Changelog
+
+### 1.1.0 (2026-07-16)
+
+**New features:**
+- `EnumAsserter` — `field(String, Enum)` with `isIn()`, `isNotIn()`, `satisfies()`
+- `ByteArrayAsserter` — `field(String, byte[])` with `notEmpty()`, `maxSize()`, `satisfies()`
+- `LocalDateTimeAsserter` — `field(String, LocalDateTime)` with `inPast()`, `inFuture()`, `after()`, `before()`, `satisfies()`
+
+**Fixes:**
+- Javadoc typos corrected (~126 occurrences)
+- `LocalDateAsserter` now uses proper time exceptions instead of deprecated `RequiredValueException`
+- UUID exceptions now return dedicated error types (`UUID_IS_NIL`, `UUID_VERSION_MISMATCH`)
+- `ArrayAsserter` now supports `satisfies()`
+
+See [CHANGELOG.md](CHANGELOG.md) for full details.
+
+### 1.0.0 (2026-02-06)
+
+Initial stable release with fluent API for Strings, Numbers, Collections, Maps, Dates, and UUIDs.
+
+---
 
 ## 🤝 Contributing
 
