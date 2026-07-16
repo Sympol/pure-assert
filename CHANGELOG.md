@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `isGreaterThanOrEqualTo()` and `isLessThanOrEqualTo()` aliases on all numeric asserters (Integer, Long, Float, Double, BigDecimal)
 - `toField()` alias on all asserters for clearer final field assignment in constructors
 - `withMessage(String)` on String, Integer, Long, Float, Double, BigDecimal asserters for custom error messages
+- Collection assertions: `minSize()`, `contains()`, `uniqueElements()`
+- `TooFewElementsException` with `TOO_FEW_ELEMENTS` error type
 - `UUID_IS_NIL` and `UUID_VERSION_MISMATCH` error types in `AssertionErrorType` enum
 - `satisfies()` method on `ArrayAsserter` for consistency with other asserters
 

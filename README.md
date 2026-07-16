@@ -63,7 +63,7 @@ public class User {
 |------|-------------------|
 | **Strings** | `notBlank()`, `minLength(n)`, `maxLength(n)`, `matches(pattern)`, `email()`, `url()`, `satisfies(predicate)` |
 | **Numbers** | `min(n)`, `max(n)`, `isGreaterThanOrEqualTo(n)`, `isLessThanOrEqualTo(n)`, `positive()`, `strictlyPositive()`, `satisfies(predicate)` |
-| **Collections** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
+| **Collections** | `notEmpty()`, `minSize(n)`, `maxSize(n)`, `noNullElement()`, `contains(element)`, `uniqueElements()`, `satisfies(predicate)` |
 | **Arrays** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
 | **Maps** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
 | **Enums** | `isIn(values...)`, `isNotIn(values...)`, `satisfies(predicate)` |
