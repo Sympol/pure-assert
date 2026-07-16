@@ -696,4 +696,40 @@ class AssertTest {
         assertEquals("Alice", result);
     }
 
+    @Test
+    void testIntegerAsserter_withMessage_min() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("age", 5).withMessage("L'âge doit être au moins 18 ans").min(18));
+        assertEquals("L'âge doit être au moins 18 ans", ex.getMessage());
+    }
+
+    @Test
+    void testIntegerAsserter_withMessage_max() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("age", 200).withMessage("L'âge ne peut pas dépasser 120 ans").max(120));
+        assertEquals("L'âge ne peut pas dépasser 120 ans", ex.getMessage());
+    }
+
+    @Test
+    void testLongAsserter_withMessage_min() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("val", 5L).withMessage("La valeur minimale est 10").min(10L));
+        assertEquals("La valeur minimale est 10", ex.getMessage());
+    }
+
+    @Test
+    void testDoubleAsserter_withMessage_min() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("rate", 0.5).withMessage("Le taux minimum est 0.8").min(0.8));
+        assertEquals("Le taux minimum est 0.8", ex.getMessage());
+    }
+
+    @Test
+    void testBigDecimalAsserter_withMessage_min() {
+        BigDecimal val = new BigDecimal("5.0");
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("price", val).withMessage("Le prix minimum est 10").min(new BigDecimal("10")));
+        assertEquals("Le prix minimum est 10", ex.getMessage());
+    }
+
 }

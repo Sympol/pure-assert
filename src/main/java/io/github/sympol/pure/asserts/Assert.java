@@ -691,6 +691,7 @@ public final class Assert {
 
         private final String field;
         private final Integer value;
+        private String customMessage;
 
         private IntegerAsserter(String field, Integer value) {
             this.field = field;
@@ -709,6 +710,25 @@ public final class Assert {
          */
         public Integer toField() {
             return value;
+        }
+
+        /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public IntegerAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
         }
 
         /**
@@ -743,6 +763,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.intValue() < minValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw NumberValueTooLowException.builder().field(field).minValue(String.valueOf(minValue))
                         .value(String.valueOf(value)).build();
             }
@@ -765,6 +790,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.intValue() > maxValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw NumberValueTooHighException.builder().field(field).maxValue(String.valueOf(maxValue))
                         .value(String.valueOf(value)).build();
             }
@@ -809,6 +839,7 @@ public final class Assert {
 
         private final String field;
         private final Long value;
+        private String customMessage;
 
         private LongAsserter(String field, Long value) {
             this.field = field;
@@ -827,6 +858,25 @@ public final class Assert {
          */
         public Long toField() {
             return value;
+        }
+
+        /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public LongAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
         }
 
         /**
@@ -861,6 +911,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.longValue() < minValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw NumberValueTooLowException.builder().field(field).minValue(String.valueOf(minValue))
                         .value(String.valueOf(value)).build();
             }
@@ -883,6 +938,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.longValue() > maxValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw NumberValueTooHighException.builder().field(field).maxValue(String.valueOf(maxValue))
                         .value(String.valueOf(value)).build();
             }
@@ -927,6 +987,7 @@ public final class Assert {
 
         private final String field;
         private final Float value;
+        private String customMessage;
 
         FloatAsserter(String field, Float value) {
             this.field = field;
@@ -945,6 +1006,25 @@ public final class Assert {
          */
         public Float toField() {
             return value;
+        }
+
+        /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public FloatAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
         }
 
         /**
@@ -989,6 +1069,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.floatValue() < minValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(minValue);
             }
 
@@ -1010,6 +1095,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.floatValue() <= floor) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(floor);
             }
 
@@ -1036,6 +1126,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.floatValue() > maxValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(maxValue);
             }
 
@@ -1057,6 +1152,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.floatValue() >= ceil) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(ceil);
             }
 
@@ -1105,6 +1205,7 @@ public final class Assert {
 
         private final String field;
         private final Double value;
+        private String customMessage;
 
         DoubleAsserter(String field, Double value) {
             this.field = field;
@@ -1123,6 +1224,25 @@ public final class Assert {
          */
         public Double toField() {
             return value;
+        }
+
+        /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public DoubleAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
         }
 
         /**
@@ -1167,6 +1287,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.doubleValue() < minValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(minValue);
             }
 
@@ -1188,6 +1313,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.doubleValue() <= floor) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(floor);
             }
 
@@ -1214,6 +1344,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.doubleValue() > maxValue) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(maxValue);
             }
 
@@ -1235,6 +1370,11 @@ public final class Assert {
             notNull(field, value);
 
             if (value.doubleValue() >= ceil) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(ceil);
             }
 
@@ -1283,6 +1423,7 @@ public final class Assert {
 
         private final String field;
         private final BigDecimal value;
+        private String customMessage;
 
         private BigDecimalAsserter(String field, BigDecimal value) {
             this.field = field;
@@ -1301,6 +1442,25 @@ public final class Assert {
          */
         public BigDecimal toField() {
             return value;
+        }
+
+        /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public BigDecimalAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
         }
 
         /**
@@ -1363,6 +1523,11 @@ public final class Assert {
             Assert.notNull("minValue", minValue);
 
             if (value.compareTo(minValue) < 0) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(minValue);
             }
 
@@ -1400,6 +1565,11 @@ public final class Assert {
             Assert.notNull("floor", floor);
 
             if (value.compareTo(floor) <= 0) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooLow(floor);
             }
 
@@ -1442,6 +1612,11 @@ public final class Assert {
             Assert.notNull("maxValue", maxValue);
 
             if (value.compareTo(maxValue) > 0) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(maxValue);
             }
 
@@ -1479,6 +1654,11 @@ public final class Assert {
             Assert.notNull("ceil", ceil);
 
             if (value.compareTo(ceil) >= 0) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw tooHigh(ceil);
             }
 
