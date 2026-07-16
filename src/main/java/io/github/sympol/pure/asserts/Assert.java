@@ -717,6 +717,28 @@ public final class Assert {
             return this;
         }
 
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(int)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public IntegerAsserter isGreaterThanOrEqualTo(int minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(int)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public IntegerAsserter isLessThanOrEqualTo(int maxValue) {
+            return max(maxValue);
+        }
+
         public IntegerAsserter satisfies(Predicate<Integer> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
@@ -801,6 +823,28 @@ public final class Assert {
             }
 
             return this;
+        }
+
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(long)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public LongAsserter isGreaterThanOrEqualTo(long minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(long)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public LongAsserter isLessThanOrEqualTo(long maxValue) {
+            return max(maxValue);
         }
 
         public LongAsserter satisfies(Predicate<Long> condition, String errorMessage) {
@@ -949,6 +993,28 @@ public final class Assert {
                     .value(String.valueOf(value)).build();
         }
 
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(float)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public FloatAsserter isGreaterThanOrEqualTo(float minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(float)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public FloatAsserter isLessThanOrEqualTo(float maxValue) {
+            return max(maxValue);
+        }
+
         public FloatAsserter satisfies(Predicate<Float> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
@@ -1093,6 +1159,28 @@ public final class Assert {
         private NumberValueTooHighException tooHigh(double ceil) {
             return NumberValueTooHighException.builder().field(field).maxValue(String.valueOf(ceil))
                     .value(String.valueOf(value)).build();
+        }
+
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(double)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public DoubleAsserter isGreaterThanOrEqualTo(double minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(double)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public DoubleAsserter isLessThanOrEqualTo(double maxValue) {
+            return max(maxValue);
         }
 
         public DoubleAsserter satisfies(Predicate<Double> condition, String errorMessage) {
@@ -1305,6 +1393,50 @@ public final class Assert {
         private NumberValueTooHighException tooHigh(BigDecimal ceil) {
             return NumberValueTooHighException.builder().field(field).maxValue(String.valueOf(ceil))
                     .value(value.toPlainString()).build();
+        }
+
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(long)} and {@link #min(BigDecimal)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public BigDecimalAsserter isGreaterThanOrEqualTo(long minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is greater than or equal to the given value.
+         * Alias for {@link #min(BigDecimal)}.
+         *
+         * @param minValue inclusive min value
+         * @return The current asserter
+         */
+        public BigDecimalAsserter isGreaterThanOrEqualTo(BigDecimal minValue) {
+            return min(minValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(long)} and {@link #max(BigDecimal)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public BigDecimalAsserter isLessThanOrEqualTo(long maxValue) {
+            return max(maxValue);
+        }
+
+        /**
+         * Ensure that the input value is less than or equal to the given value.
+         * Alias for {@link #max(BigDecimal)}.
+         *
+         * @param maxValue inclusive max value
+         * @return The current asserter
+         */
+        public BigDecimalAsserter isLessThanOrEqualTo(BigDecimal maxValue) {
+            return max(maxValue);
         }
 
         /**

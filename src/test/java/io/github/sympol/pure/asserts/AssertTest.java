@@ -579,4 +579,69 @@ class AssertTest {
                 .after(now));
     }
 
+    // isGreaterThanOrEqualTo / isLessThanOrEqualTo
+    @Test
+    void testIntegerAsserter_isGreaterThanOrEqualTo_valid() {
+        assertDoesNotThrow(() -> Assert.field("age", 18).isGreaterThanOrEqualTo(18));
+    }
+
+    @Test
+    void testIntegerAsserter_isGreaterThanOrEqualTo_invalid() {
+        assertThrows(NumberValueTooLowException.class, () -> Assert.field("age", 17).isGreaterThanOrEqualTo(18));
+    }
+
+    @Test
+    void testIntegerAsserter_isLessThanOrEqualTo_valid() {
+        assertDoesNotThrow(() -> Assert.field("age", 18).isLessThanOrEqualTo(18));
+    }
+
+    @Test
+    void testIntegerAsserter_isLessThanOrEqualTo_invalid() {
+        assertThrows(NumberValueTooHighException.class, () -> Assert.field("age", 19).isLessThanOrEqualTo(18));
+    }
+
+    @Test
+    void testLongAsserter_isGreaterThanOrEqualTo_valid() {
+        assertDoesNotThrow(() -> Assert.field("val", 100L).isGreaterThanOrEqualTo(100L));
+    }
+
+    @Test
+    void testLongAsserter_isGreaterThanOrEqualTo_invalid() {
+        assertThrows(NumberValueTooLowException.class, () -> Assert.field("val", 99L).isGreaterThanOrEqualTo(100L));
+    }
+
+    @Test
+    void testDoubleAsserter_isGreaterThanOrEqualTo_valid() {
+        assertDoesNotThrow(() -> Assert.field("val", 5.0).isGreaterThanOrEqualTo(5.0));
+    }
+
+    @Test
+    void testDoubleAsserter_isGreaterThanOrEqualTo_invalid() {
+        assertThrows(NumberValueTooLowException.class, () -> Assert.field("val", 4.9).isGreaterThanOrEqualTo(5.0));
+    }
+
+    @Test
+    void testBigDecimalAsserter_isGreaterThanOrEqualTo_valid() {
+        BigDecimal val = new BigDecimal("10.5");
+        assertDoesNotThrow(() -> Assert.field("price", val).isGreaterThanOrEqualTo(new BigDecimal("10.5")));
+    }
+
+    @Test
+    void testBigDecimalAsserter_isGreaterThanOrEqualTo_invalid() {
+        BigDecimal val = new BigDecimal("9.9");
+        assertThrows(NumberValueTooLowException.class, () -> Assert.field("price", val).isGreaterThanOrEqualTo(new BigDecimal("10")));
+    }
+
+    @Test
+    void testBigDecimalAsserter_isLessThanOrEqualTo_valid() {
+        BigDecimal val = new BigDecimal("10.5");
+        assertDoesNotThrow(() -> Assert.field("price", val).isLessThanOrEqualTo(new BigDecimal("10.5")));
+    }
+
+    @Test
+    void testBigDecimalAsserter_isLessThanOrEqualTo_invalid() {
+        BigDecimal val = new BigDecimal("10.6");
+        assertThrows(NumberValueTooHighException.class, () -> Assert.field("price", val).isLessThanOrEqualTo(new BigDecimal("10.5")));
+    }
+
 }
