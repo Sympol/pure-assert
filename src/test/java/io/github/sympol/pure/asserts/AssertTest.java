@@ -732,4 +732,53 @@ class AssertTest {
         assertEquals("Le prix minimum est 10", ex.getMessage());
     }
 
+    // CollectionAsserter - new methods
+    @Test
+    void testCollectionAsserter_minSize_valid() {
+        Collection<String> col = List.of("a", "b", "c");
+        assertDoesNotThrow(() -> Assert.field("list", col).minSize(2));
+    }
+
+    @Test
+    void testCollectionAsserter_minSize_invalid() {
+        Collection<String> col = List.of("a");
+        assertThrows(TooFewElementsException.class, () -> Assert.field("list", col).minSize(2));
+    }
+
+    @Test
+    void testCollectionAsserter_contains_valid() {
+        Collection<String> col = List.of("a", "b", "c");
+        assertDoesNotThrow(() -> Assert.field("list", col).contains("b"));
+    }
+
+    @Test
+    void testCollectionAsserter_contains_invalid() {
+        Collection<String> col = List.of("a", "b", "c");
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("list", col).contains("d"));
+    }
+
+    @Test
+    void testCollectionAsserter_uniqueElements_valid() {
+        Collection<String> col = List.of("a", "b", "c");
+        assertDoesNotThrow(() -> Assert.field("list", col).uniqueElements());
+    }
+
+    @Test
+    void testCollectionAsserter_uniqueElements_invalid() {
+        Collection<String> col = List.of("a", "b", "a");
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("list", col).uniqueElements());
+    }
+
+    @Test
+    void testCollectionAsserter_chained() {
+        Collection<String> col = List.of("a", "b", "c");
+        assertDoesNotThrow(() -> Assert.field("list", col)
+                .notNull()
+                .notEmpty()
+                .minSize(2)
+                .maxSize(5)
+                .noNullElement()
+                .uniqueElements());
+    }
+
 }

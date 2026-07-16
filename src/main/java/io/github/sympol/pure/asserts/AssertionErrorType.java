@@ -22,6 +22,8 @@ public enum AssertionErrorType {
     STRING_TOO_SHORT,
     /** A collection has too many elements. */
     TOO_MANY_ELEMENTS,
+    /** A collection has too few elements. */
+    TOO_FEW_ELEMENTS,
     /** A UUID is nil (all zeros). */
     UUID_IS_NIL,
     /** A UUID has an incorrect version. */

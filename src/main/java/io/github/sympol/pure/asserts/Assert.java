@@ -1838,6 +1838,73 @@ public final class Assert {
             return this;
         }
 
+        /**
+         * Ensure that the size of the collection is at least the given size
+         *
+         * @param minSize
+         *                inclusive min size of the {@link Collection}
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         * @throws TooFewElementsException
+         *                                        if the size of value is under the
+         *                                        min size
+         */
+        public CollectionAsserter<T> minSize(int minSize) {
+            notNull();
+
+            if (value.size() < minSize) {
+                throw TooFewElementsException.builder().field(field).minSize(minSize).size(value.size()).build();
+            }
+
+            return this;
+        }
+
+        /**
+         * Ensure that the collection contains the given element
+         *
+         * @param element
+         *                element to check
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or doesn't
+         *                                        contain the element
+         */
+        public CollectionAsserter<T> contains(T element) {
+            notNull();
+
+            if (!value.contains(element)) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Collection must contain " + element);
+            }
+
+            return this;
+        }
+
+        /**
+         * Ensure that all elements in the collection are unique
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or contains
+         *                                        duplicates
+         */
+        public CollectionAsserter<T> uniqueElements() {
+            if (value == null) {
+                return this;
+            }
+
+            long distinctCount = value.stream().filter(Objects::nonNull).distinct().count();
+            long nonNullCount = value.stream().filter(Objects::nonNull).count();
+
+            if (distinctCount != nonNullCount) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Collection must contain only unique elements");
+            }
+
+            return this;
+        }
+
         public CollectionAsserter<T> satisfies(Predicate<Collection<T>> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
