@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Enum assertions** via `field(String, E extends Enum<E>)` with `isIn()`, `isNotIn()`, `satisfies()`
 - **Byte array assertions** via `field(String, byte[])` with `notEmpty()`, `maxSize()`, `satisfies()`
 - **LocalDateTime assertions** via `field(String, LocalDateTime)` with `inPast()`, `inFuture()`, `after()`, `before()`, `satisfies()`
+- `isGreaterThanOrEqualTo()` and `isLessThanOrEqualTo()` aliases on all numeric asserters (Integer, Long, Float, Double, BigDecimal)
 - `UUID_IS_NIL` and `UUID_VERSION_MISMATCH` error types in `AssertionErrorType` enum
 - `satisfies()` method on `ArrayAsserter` for consistency with other asserters
 

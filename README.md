@@ -62,7 +62,7 @@ public class User {
 | Type | Available Methods |
 |------|-------------------|
 | **Strings** | `notBlank()`, `minLength(n)`, `maxLength(n)`, `matches(pattern)`, `email()`, `url()`, `satisfies(predicate)` |
-| **Numbers** | `min(n)`, `max(n)`, `positive()`, `strictlyPositive()`, `satisfies(predicate)` |
+| **Numbers** | `min(n)`, `max(n)`, `isGreaterThanOrEqualTo(n)`, `isLessThanOrEqualTo(n)`, `positive()`, `strictlyPositive()`, `satisfies(predicate)` |
 | **Collections** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
 | **Arrays** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
 | **Maps** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
@@ -80,6 +80,36 @@ Assert.field("username", username)
       .notBlank()
       .satisfies(u -> u.startsWith("user_"), "Username must start with 'user_'");
 ```
+
+## 🔒 Final Fields Support
+
+The library is designed to work seamlessly with `final` fields. Since `.value()` returns the validated value, you can assign it directly in the constructor:
+
+```java
+public class Order {
+    private final String orderId;
+    private final BigDecimal amount;
+    private final LocalDateTime createdAt;
+
+    public Order(String orderId, BigDecimal amount, LocalDateTime createdAt) {
+        this.orderId = Assert.field("orderId", orderId)
+                            .notBlank()
+                            .value();  // Returns the validated String
+
+        this.amount = Assert.field("amount", amount)
+                           .notNull()
+                           .isGreaterThanOrEqualTo(BigDecimal.ZERO)
+                           .value();
+
+        this.createdAt = Assert.field("createdAt", createdAt)
+                              .notNull()
+                              .inPast()
+                              .value();
+    }
+}
+```
+
+This pattern ensures your domain objects are **Always Valid** while keeping fields immutable.
 
 ## 🆚 Comparison with Alternatives
 
