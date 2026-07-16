@@ -83,7 +83,7 @@ Assert.field("username", username)
 
 ## 🔒 Final Fields Support
 
-The library is designed to work seamlessly with `final` fields. Since `.value()` returns the validated value, you can assign it directly in the constructor:
+The library is designed to work seamlessly with `final` fields. Use `.toField()` (or `.value()`) to assign the validated value directly in the constructor:
 
 ```java
 public class Order {
@@ -94,17 +94,17 @@ public class Order {
     public Order(String orderId, BigDecimal amount, LocalDateTime createdAt) {
         this.orderId = Assert.field("orderId", orderId)
                             .notBlank()
-                            .value();  // Returns the validated String
+                            .toField();  // Clear intent: assigning to a field
 
         this.amount = Assert.field("amount", amount)
                            .notNull()
                            .isGreaterThanOrEqualTo(BigDecimal.ZERO)
-                           .value();
+                           .toField();
 
         this.createdAt = Assert.field("createdAt", createdAt)
                               .notNull()
                               .inPast()
-                              .value();
+                              .toField();
     }
 }
 ```
