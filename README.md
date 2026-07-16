@@ -81,6 +81,23 @@ Assert.field("username", username)
       .satisfies(u -> u.startsWith("user_"), "Username must start with 'user_'");
 ```
 
+## 💬 Custom Error Messages
+
+Use `withMessage(String)` to override default error messages for better localization:
+
+```java
+Assert.field("age", age)
+      .withMessage("L'âge doit être au moins 18 ans")
+      .min(18);
+
+Assert.field("email", email)
+      .withMessage("L'email n'est pas valide")
+      .notBlank()
+      .email();
+```
+
+The custom message is used only when the assertion fails, then reset for subsequent assertions.
+
 ## 🔒 Final Fields Support
 
 The library is designed to work seamlessly with `final` fields. Use `.toField()` (or `.value()`) to assign the validated value directly in the constructor:
