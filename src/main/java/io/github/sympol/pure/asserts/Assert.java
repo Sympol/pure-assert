@@ -2275,6 +2275,78 @@ public final class Assert {
             return this;
         }
 
+        /**
+         * Ensure that the value is after or equal to the given date
+         *
+         * @param other
+         *              inclusive after date
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotAfterTimeException
+         *                                        if the value is not after or equal
+         *                                        to the other
+         */
+        public LocalDateAsserter afterOrAt(LocalDate other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (value.isBefore(other)) {
+                throw NotAfterTimeException.notAfter()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is before or equal to the given date
+         *
+         * @param other
+         *              inclusive before date
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotBeforeTimeException
+         *                                        if the value is not before or equal
+         *                                        to the other
+         */
+        public LocalDateAsserter beforeOrAt(LocalDate other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (value.isAfter(other)) {
+                throw NotBeforeTimeException.notBefore()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is between the given dates (inclusive)
+         *
+         * @param start
+         *              inclusive start date
+         * @param end
+         *              inclusive end date
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if value, start or end are null
+         * @throws NotAfterTimeException
+         *                                        if the value is before start
+         * @throws NotBeforeTimeException
+         *                                        if the value is after end
+         */
+        public LocalDateAsserter isBetween(LocalDate start, LocalDate end) {
+            notNull();
+            Assert.notNull("start", start);
+            Assert.notNull("end", end);
+            afterOrAt(start);
+            beforeOrAt(end);
+            return this;
+        }
+
         public LocalDateAsserter satisfies(Predicate<LocalDate> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
@@ -2817,6 +2889,78 @@ public final class Assert {
                         .field(field)
                         .other(other.atZone(ZoneId.systemDefault()).toInstant());
             }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is after or equal to the given date-time
+         *
+         * @param other
+         *              inclusive after date-time
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotAfterTimeException
+         *                                        if the value is not after or equal
+         *                                        to the other
+         */
+        public LocalDateTimeAsserter afterOrAt(LocalDateTime other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (value.isBefore(other)) {
+                throw NotAfterTimeException.notAfter()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atZone(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is before or equal to the given date-time
+         *
+         * @param other
+         *              inclusive before date-time
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotBeforeTimeException
+         *                                        if the value is not before or equal
+         *                                        to the other
+         */
+        public LocalDateTimeAsserter beforeOrAt(LocalDateTime other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (value.isAfter(other)) {
+                throw NotBeforeTimeException.notBefore()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atZone(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is between the given date-times (inclusive)
+         *
+         * @param start
+         *              inclusive start date-time
+         * @param end
+         *              inclusive end date-time
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if value, start or end are null
+         * @throws NotAfterTimeException
+         *                                        if the value is before start
+         * @throws NotBeforeTimeException
+         *                                        if the value is after end
+         */
+        public LocalDateTimeAsserter isBetween(LocalDateTime start, LocalDateTime end) {
+            notNull();
+            Assert.notNull("start", start);
+            Assert.notNull("end", end);
+            afterOrAt(start);
+            beforeOrAt(end);
             return this;
         }
 

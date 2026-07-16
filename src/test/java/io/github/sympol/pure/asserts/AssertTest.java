@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -828,6 +829,100 @@ class AssertTest {
                 .maxSize(10)
                 .containsKey("host")
                 .containsValue("localhost"));
+    }
+
+    // LocalDateAsserter - new methods
+    @Test
+    void testLocalDateAsserter_afterOrAt_valid() {
+        LocalDate now = LocalDate.now();
+        assertDoesNotThrow(() -> Assert.field("date", now).afterOrAt(now));
+    }
+
+    @Test
+    void testLocalDateAsserter_afterOrAt_invalid() {
+        LocalDate now = LocalDate.now();
+        LocalDate before = now.minusDays(1);
+        assertThrows(NotAfterTimeException.class, () -> Assert.field("date", before).afterOrAt(now));
+    }
+
+    @Test
+    void testLocalDateAsserter_beforeOrAt_valid() {
+        LocalDate now = LocalDate.now();
+        assertDoesNotThrow(() -> Assert.field("date", now).beforeOrAt(now));
+    }
+
+    @Test
+    void testLocalDateAsserter_beforeOrAt_invalid() {
+        LocalDate now = LocalDate.now();
+        LocalDate after = now.plusDays(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("date", after).beforeOrAt(now));
+    }
+
+    @Test
+    void testLocalDateAsserter_isBetween_valid() {
+        LocalDate date = LocalDate.now();
+        LocalDate start = date.minusDays(1);
+        LocalDate end = date.plusDays(1);
+        assertDoesNotThrow(() -> Assert.field("date", date).isBetween(start, end));
+    }
+
+    @Test
+    void testLocalDateAsserter_isBetween_invalid_before() {
+        LocalDate date = LocalDate.now().minusDays(5);
+        LocalDate start = LocalDate.now().minusDays(1);
+        LocalDate end = LocalDate.now().plusDays(1);
+        assertThrows(NotAfterTimeException.class, () -> Assert.field("date", date).isBetween(start, end));
+    }
+
+    @Test
+    void testLocalDateAsserter_isBetween_invalid_after() {
+        LocalDate date = LocalDate.now().plusDays(5);
+        LocalDate start = LocalDate.now().minusDays(1);
+        LocalDate end = LocalDate.now().plusDays(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("date", date).isBetween(start, end));
+    }
+
+    // LocalDateTimeAsserter - new methods
+    @Test
+    void testLocalDateTimeAsserter_afterOrAt_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        assertDoesNotThrow(() -> Assert.field("datetime", now).afterOrAt(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_afterOrAt_invalid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime before = now.minusHours(1);
+        assertThrows(NotAfterTimeException.class, () -> Assert.field("datetime", before).afterOrAt(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_beforeOrAt_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        assertDoesNotThrow(() -> Assert.field("datetime", now).beforeOrAt(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_beforeOrAt_invalid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime after = now.plusHours(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("datetime", after).beforeOrAt(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_isBetween_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start = now.minusHours(1);
+        LocalDateTime end = now.plusHours(1);
+        assertDoesNotThrow(() -> Assert.field("datetime", now).isBetween(start, end));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_isBetween_invalid() {
+        LocalDateTime now = LocalDateTime.now().plusDays(5);
+        LocalDateTime start = LocalDateTime.now().minusHours(1);
+        LocalDateTime end = LocalDateTime.now().plusHours(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("datetime", now).isBetween(start, end));
     }
 
 }
