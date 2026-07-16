@@ -2633,6 +2633,54 @@ public final class Assert {
         }
 
         /**
+         * Ensure that the value is one of the allowed values.
+         * Alias for {@link #isIn(Enum[])}.
+         *
+         * @param allowed allowed enum values
+         * @return The current asserter
+         */
+        @SafeVarargs
+        public final EnumAsserter<E> isAnyOf(E... allowed) {
+            return isIn(allowed);
+        }
+
+        /**
+         * Ensure that the value is not one of the disallowed values.
+         * Alias for {@link #isNotIn(Enum[])}.
+         *
+         * @param disallowed disallowed enum values
+         * @return The current asserter
+         */
+        @SafeVarargs
+        public final EnumAsserter<E> isNoneOf(E... disallowed) {
+            return isNotIn(disallowed);
+        }
+
+        /**
+         * Get the enum name as a String for further validation
+         *
+         * @return The enum name
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         */
+        public String name() {
+            notNull();
+            return value.name();
+        }
+
+        /**
+         * Get the enum ordinal as an int for further validation
+         *
+         * @return The enum ordinal
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         */
+        public int ordinal() {
+            notNull();
+            return value.ordinal();
+        }
+
+        /**
          * Ensure that the value satisfies the given condition
          *
          * @param condition

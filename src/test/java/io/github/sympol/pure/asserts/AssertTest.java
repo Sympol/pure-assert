@@ -925,4 +925,48 @@ class AssertTest {
         assertThrows(NotBeforeTimeException.class, () -> Assert.field("datetime", now).isBetween(start, end));
     }
 
+    // EnumAsserter - new methods
+    @Test
+    void testEnumAsserter_isAnyOf_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE).isAnyOf(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_isAnyOf_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("status", Status.PENDING).isAnyOf(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_isNoneOf_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE).isNoneOf(Status.INACTIVE, Status.PENDING));
+    }
+
+    @Test
+    void testEnumAsserter_isNoneOf_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("status", Status.INACTIVE).isNoneOf(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_name() {
+        String name = Assert.field("status", Status.ACTIVE).notNull().name();
+        assertEquals("ACTIVE", name);
+    }
+
+    @Test
+    void testEnumAsserter_ordinal() {
+        int ordinal = Assert.field("status", Status.ACTIVE).notNull().ordinal();
+        assertEquals(0, ordinal);
+    }
+
+    @Test
+    void testEnumAsserter_chained_with_new_methods() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE)
+                .notNull()
+                .isAnyOf(Status.ACTIVE, Status.INACTIVE, Status.PENDING)
+                .isNoneOf()
+                .satisfies(s -> s == Status.ACTIVE, "Must be ACTIVE"));
+    }
+
 }
