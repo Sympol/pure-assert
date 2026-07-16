@@ -3,6 +3,7 @@ package io.github.sympol.pure.asserts;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -51,7 +52,7 @@ public final class Assert {
     }
 
     /**
-     * Ensure that the lastName is not blank (null, empty or only whitespace)
+     * Ensure that the input is not blank (null, empty or only whitespace)
      *
      * @param field
      *              name of the field to check (will be displayed in exception
@@ -119,7 +120,7 @@ public final class Assert {
      *              message)
      * @param input
      *              string to check
-     * @return A {@link StringAsserter} for this field and lastName
+     * @return A {@link StringAsserter} for this field and value
      */
     public static StringAsserter field(String field, String input) {
         return new StringAsserter(field, input);
@@ -144,8 +145,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link IntegerAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link IntegerAsserter} for this field and value
      */
     public static IntegerAsserter field(String field, Integer input) {
         return new IntegerAsserter(field, input);
@@ -170,8 +171,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link LongAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link LongAsserter} for this field and value
      */
     public static LongAsserter field(String field, Long input) {
         return new LongAsserter(field, input);
@@ -196,8 +197,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link DoubleAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link FloatAsserter} for this field and value
      */
     public static FloatAsserter field(String field, Float input) {
         return new FloatAsserter(field, input);
@@ -222,8 +223,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link DoubleAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link DoubleAsserter} for this field and value
      */
     public static DoubleAsserter field(String field, Double input) {
         return new DoubleAsserter(field, input);
@@ -248,8 +249,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link BigDecimalAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link BigDecimalAsserter} for this field and value
      */
     public static BigDecimalAsserter field(String field, BigDecimal input) {
         return new BigDecimalAsserter(field, input);
@@ -275,7 +276,7 @@ public final class Assert {
      *              message)
      * @param input
      *              collection to check
-     * @return A {@link CollectionAsserter} for this field and lastName
+     * @return A {@link CollectionAsserter} for this field and value
      */
     public static <T> CollectionAsserter<T> field(String field, Collection<T> input) {
         return new CollectionAsserter<>(field, input);
@@ -314,7 +315,7 @@ public final class Assert {
      *              message)
      * @param input
      *              array to check
-     * @return A {@link ArrayAsserter} for this field and lastName
+     * @return A {@link ArrayAsserter} for this field and value
      */
     public static <T> ArrayAsserter<T> field(String field, T[] input) {
         return new ArrayAsserter<>(field, input);
@@ -339,8 +340,8 @@ public final class Assert {
      *              name of the field to check (will be displayed in exception
      *              message)
      * @param input
-     *              lastName to check
-     * @return An {@link InstantAsserter} for this field and lastName
+     *              value to check
+     * @return An {@link InstantAsserter} for this field and value
      */
     public static InstantAsserter field(String field, Instant input) {
         return new InstantAsserter(field, input);
@@ -391,7 +392,7 @@ public final class Assert {
      *              name of the field to check
      * @param input
      *              UUID string to check
-     * @return A {@link UUIDAsserter} for this field and lastName
+     * @return A {@link UUIDAsserter} for this field and value
      */
     public static UUIDAsserter field(String field, UUID input) {
         return new UUIDAsserter(field, input);
@@ -420,11 +421,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not null
+         * Ensure that the value is not null
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          */
         public StringAsserter notNull() {
             Assert.notNull(field, value);
@@ -433,11 +434,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not blank (null, empty or only whitespace)
+         * Ensure that the input is not blank (null, empty or only whitespace)
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is blank
+         *                                        if the value is blank
          */
         public StringAsserter notBlank() {
             notNull();
@@ -450,7 +451,7 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is at least of the given length
+         * Ensure that the input value is at least of the given length
          *
          * @param length
          *               inclusive min length of the {@link String}
@@ -458,9 +459,9 @@ public final class Assert {
          * @return The current asserter
          * @throws MissingMandatoryValueException
          *                                        if the expected length is strictly
-         *                                        positive and the lastName is null
+         *                                        positive and the value is null
          * @throws StringTooShortException
-         *                                        if the lastName is shorter than min
+         *                                        if the value is shorter than min
          *                                        length
          */
         public StringAsserter minLength(int length) {
@@ -478,13 +479,13 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the given input lastName is not over the given length
+         * Ensure that the given input value is not over the given length
          *
          * @param length
          *               inclusive max length of the {@link String}
          * @return The current asserter
          * @throws StringTooLongException
-         *                                if the lastName is longer than the max length
+         *                                if the value is longer than the max length
          */
         public StringAsserter maxLength(int length) {
             if (value == null) {
@@ -573,13 +574,13 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is positive (0 is positive)
+         * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public IntegerAsserter positive() {
             return min(0);
@@ -590,15 +591,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is over the given lastName
+         * Ensure that the input value is over the given value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under min
+         *                                        if the value is under min
          */
         public IntegerAsserter min(int minValue) {
             notNull(field, value);
@@ -612,15 +613,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given lastName
+         * Ensure that the input value is under the given value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over max
+         *                                        if the value is over max
          */
         public IntegerAsserter max(int maxValue) {
             notNull(field, value);
@@ -659,13 +660,13 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is positive (0 is positive)
+         * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public LongAsserter positive() {
             return min(0L);
@@ -676,15 +677,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is over the given lastName
+         * Ensure that the input value is over the given value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under min
+         *                                        if the value is under min
          */
         public LongAsserter min(long minValue) {
             notNull(field, value);
@@ -698,15 +699,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given lastName
+         * Ensure that the input value is under the given value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over max
+         *                                        if the value is over max
          */
         public LongAsserter max(long maxValue) {
             notNull(field, value);
@@ -745,42 +746,42 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is positive (0 is positive)
+         * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public FloatAsserter positive() {
             return min(0);
         }
 
         /**
-         * Ensure that the input lastName is strictly positive (0 is not strictly
+         * Ensure that the input value is strictly positive (0 is not strictly
          * positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public FloatAsserter strictlyPositive() {
             return over(0);
         }
 
         /**
-         * Ensure that the input lastName is over the given lastName
+         * Ensure that the input value is over the given value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under min
+         *                                        if the value is under min
          */
         public FloatAsserter min(float minValue) {
             notNull(field, value);
@@ -793,15 +794,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is over the given floor
+         * Ensure that the input value is over the given floor
          *
          * @param floor
-         *              exclusive floor lastName
+         *              exclusive floor value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public FloatAsserter over(float floor) {
             notNull(field, value);
@@ -819,15 +820,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given lastName
+         * Ensure that the input value is under the given value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over max
+         *                                        if the value is over max
          */
         public FloatAsserter max(float maxValue) {
             notNull(field, value);
@@ -840,15 +841,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given ceil
+         * Ensure that the input value is under the given ceil
          *
          * @param ceil
-         *             exclusive ceil lastName
+         *             exclusive ceil value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over ceil
+         *                                        if the value is over ceil
          */
         public FloatAsserter under(float ceil) {
             notNull(field, value);
@@ -891,42 +892,42 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is positive (0 is positive)
+         * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public DoubleAsserter positive() {
             return min(0);
         }
 
         /**
-         * Ensure that the input lastName is strictly positive (0 is not strictly
+         * Ensure that the input value is strictly positive (0 is not strictly
          * positive)
          *
          * @return The current asserters
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is negative
+         *                                        if the value is negative
          */
         public DoubleAsserter strictlyPositive() {
             return over(0);
         }
 
         /**
-         * Ensure that the input lastName is over the given lastName
+         * Ensure that the input value is over the given value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under min
+         *                                        if the value is under min
          */
         public DoubleAsserter min(double minValue) {
             notNull(field, value);
@@ -939,15 +940,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is over the given floor
+         * Ensure that the input value is over the given floor
          *
          * @param floor
-         *              exclusive floor lastName
+         *              exclusive floor value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public DoubleAsserter over(double floor) {
             notNull(field, value);
@@ -965,15 +966,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given lastName
+         * Ensure that the input value is under the given value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over max
+         *                                        if the value is over max
          */
         public DoubleAsserter max(double maxValue) {
             notNull(field, value);
@@ -986,15 +987,15 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given ceil
+         * Ensure that the input value is under the given ceil
          *
          * @param ceil
-         *             exclusive ceil lastName
+         *             exclusive ceil value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is over ceil
+         *                                        if the value is over ceil
          */
         public DoubleAsserter under(double ceil) {
             notNull(field, value);
@@ -1037,59 +1038,59 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is positive (0 is positive)
+         * Ensure that the input value is positive (0 is positive)
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NumberValueTooLowException
-         *                                        if the input lastName is negative
+         *                                        if the input value is negative
          */
         public BigDecimalAsserter positive() {
             return min(0);
         }
 
         /**
-         * Ensure that the input lastName is strictly positive (0 is not strictly
+         * Ensure that the input value is strictly positive (0 is not strictly
          * positive)
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NumberValueTooLowException
-         *                                        if the input lastName is negative
+         *                                        if the input value is negative
          */
         public BigDecimalAsserter strictlyPositive() {
             return over(0);
         }
 
         /**
-         * Ensure that the input lastName is at least at min lastName
+         * Ensure that the input value is at least at min value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NumberValueTooLowException
-         *                                        if the input lastName is under the min
-         *                                        lastName
+         *                                        if the input value is under the min
+         *                                        value
          */
         public BigDecimalAsserter min(long minValue) {
             return min(new BigDecimal(minValue));
         }
 
         /**
-         * Ensure that the input lastName is at least at min lastName
+         * Ensure that the input value is at least at min value
          *
          * @param minValue
-         *                 inclusive min lastName
+         *                 inclusive min value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input or min lastName is null
+         *                                        if the input or min value is null
          * @throws NumberValueTooLowException
-         *                                        if the input lastName is under the min
-         *                                        lastName
+         *                                        if the input value is under the min
+         *                                        value
          */
         public BigDecimalAsserter min(BigDecimal minValue) {
             notNull();
@@ -1103,30 +1104,30 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is over the given floor
+         * Ensure that the input value is over the given floor
          *
          * @param floor
-         *              exclusive floor lastName
+         *              exclusive floor value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public BigDecimalAsserter over(long floor) {
             return over(new BigDecimal(floor));
         }
 
         /**
-         * Ensure that the input lastName is over the given floor
+         * Ensure that the input value is over the given floor
          *
          * @param floor
-         *              exclusive floor lastName
+         *              exclusive floor value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName or floor is null
+         *                                        if value or floor is null
          * @throws NumberValueTooLowException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public BigDecimalAsserter over(BigDecimal floor) {
             notNull();
@@ -1145,30 +1146,30 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is at most at max lastName
+         * Ensure that the input value is at most at max value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NumberValueTooHighException
-         *                                        if the input lastName is over max
+         *                                        if the input value is over max
          */
         public BigDecimalAsserter max(long maxValue) {
             return max(new BigDecimal(maxValue));
         }
 
         /**
-         * Ensure that the input lastName is at most at max lastName
+         * Ensure that the input value is at most at max value
          *
          * @param maxValue
-         *                 inclusive max lastName
+         *                 inclusive max value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input or max lastName is null
+         *                                        if the input or max value is null
          * @throws NumberValueTooHighException
-         *                                        if the input lastName is over max
+         *                                        if the input value is over max
          */
         public BigDecimalAsserter max(BigDecimal maxValue) {
             notNull();
@@ -1182,30 +1183,30 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is under the given ceil
+         * Ensure that the input value is under the given ceil
          *
          * @param ceil
-         *             exclusive ceil lastName
+         *             exclusive ceil value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName is null
+         *                                        if value is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public BigDecimalAsserter under(long ceil) {
             return under(new BigDecimal(ceil));
         }
 
         /**
-         * Ensure that the input lastName is under the given ceil
+         * Ensure that the input value is under the given ceil
          *
          * @param ceil
-         *             exclusive ceil lastName
+         *             exclusive ceil value
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if lastName or ceil is null
+         *                                        if value or ceil is null
          * @throws NumberValueTooHighException
-         *                                        if the lastName is under floor
+         *                                        if the value is under floor
          */
         public BigDecimalAsserter under(BigDecimal ceil) {
             notNull();
@@ -1224,11 +1225,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the input lastName is not null
+         * Ensure that the input value is not null
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          */
         public BigDecimalAsserter notNull() {
             Assert.notNull(field, value);
@@ -1262,11 +1263,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not null
+         * Ensure that the value is not null
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          */
         public CollectionAsserter<T> notNull() {
             Assert.notNull(field, value);
@@ -1275,11 +1276,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not empty (null or empty)
+         * Ensure that the value is not empty (null or empty)
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null or empty
+         *                                        if the value is null or empty
          */
         public CollectionAsserter<T> notEmpty() {
             notNull();
@@ -1292,16 +1293,16 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the size of the given input lastName is not over the given size
+         * Ensure that the size of the given input value is not over the given size
          *
          * @param maxSize
          *                inclusive max size of the {@link Collection}
          * @return The current asserter
          * @throws MissingMandatoryValueException
          *                                        if the expected size is strictly
-         *                                        positive and the lastName is null
+         *                                        positive and the value is null
          * @throws TooManyElementsException
-         *                                        if the size of lastName is over the
+         *                                        if the size of value is over the
          *                                        max size
          */
         public CollectionAsserter<T> maxSize(int maxSize) {
@@ -1363,11 +1364,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not null
+         * Ensure that the value is not null
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null
+         *                                        if the value is null
          */
         public ArrayAsserter<T> notNull() {
             Assert.notNull(field, value);
@@ -1376,11 +1377,11 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the lastName is not empty (null or empty)
+         * Ensure that the value is not empty (null or empty)
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the lastName is null or empty
+         *                                        if the value is null or empty
          */
         public ArrayAsserter<T> notEmpty() {
             notNull();
@@ -1393,16 +1394,16 @@ public final class Assert {
         }
 
         /**
-         * Ensure that the size of the given input lastName is not over the given size
+         * Ensure that the size of the given input value is not over the given size
          *
          * @param maxSize
          *                inclusive max size of the array
          * @return The current asserter
          * @throws MissingMandatoryValueException
          *                                        if the expected size is strictly
-         *                                        positive and the lastName is null
+         *                                        positive and the value is null
          * @throws TooManyElementsException
-         *                                        if the size of lastName is over the
+         *                                        if the size of value is over the
          *                                        max size
          */
         public ArrayAsserter<T> maxSize(int maxSize) {
@@ -1437,6 +1438,13 @@ public final class Assert {
 
             return this;
         }
+
+        public ArrayAsserter<T> satisfies(Predicate<T[]> condition, String errorMessage) {
+            if (value == null || !condition.test(value)) {
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+            }
+            return this;
+        }
     }
 
     /**
@@ -1464,7 +1472,7 @@ public final class Assert {
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NotAfterTimeException
          *                                        if the input expirationTime is in past
          */
@@ -1524,7 +1532,7 @@ public final class Assert {
          *
          * @return The current asserter
          * @throws MissingMandatoryValueException
-         *                                        if the input lastName is null
+         *                                        if the input value is null
          * @throws NotBeforeTimeException
          *                                        if the input expirationTime is in
          *                                        future
@@ -1627,7 +1635,10 @@ public final class Assert {
         public LocalDateAsserter inPast() {
             notNull();
             if (value.isAfter(LocalDate.now())) {
-                throw new RequiredValueException(field, value, "Must be in the past");
+                throw NotBeforeTimeException.notBefore()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(Instant.now());
             }
             return this;
         }
@@ -1635,7 +1646,10 @@ public final class Assert {
         public LocalDateAsserter inFuture() {
             notNull();
             if (value.isBefore(LocalDate.now())) {
-                throw new RequiredValueException(field, value, "Must be in the future");
+                throw NotAfterTimeException.notAfter()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(Instant.now());
             }
             return this;
         }
@@ -1644,7 +1658,10 @@ public final class Assert {
             notNull();
             Assert.notNull(OTHER_FIELD_NAME, other);
             if (!value.isAfter(other)) {
-                throw new RequiredValueException(field, value, "Must be after " + other);
+                throw NotAfterTimeException.strictlyNotAfter()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atStartOfDay(ZoneId.systemDefault()).toInstant());
             }
             return this;
         }
@@ -1653,7 +1670,10 @@ public final class Assert {
             notNull();
             Assert.notNull(OTHER_FIELD_NAME, other);
             if (!value.isBefore(other)) {
-                throw new RequiredValueException(field, value, "Must be before " + other);
+                throw NotBeforeTimeException.strictlyNotBefore()
+                        .value(value.atStartOfDay(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atStartOfDay(ZoneId.systemDefault()).toInstant());
             }
             return this;
         }

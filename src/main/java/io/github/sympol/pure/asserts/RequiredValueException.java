@@ -1,7 +1,7 @@
 package io.github.sympol.pure.asserts;
 
 /**
- * Exception levée lorsqu'une valeur requise est null ou invalide.
+ * Exception thrown when a required value is null or invalid.
  */
 public class RequiredValueException extends AssertionException {
 

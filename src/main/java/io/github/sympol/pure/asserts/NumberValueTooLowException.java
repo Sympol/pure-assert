@@ -64,12 +64,6 @@ public final class NumberValueTooLowException extends AssertionException {
          * @param value actual value
          * @return the builder
          */
-        /**
-         * Set the actual value.
-         * 
-         * @param value actual value
-         * @return the builder
-         */
         public NumberValueTooLowExceptionBuilder value(String value) {
             this.value = value;
 

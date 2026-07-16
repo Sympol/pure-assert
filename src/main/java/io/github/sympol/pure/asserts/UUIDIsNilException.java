@@ -11,7 +11,7 @@ public class UUIDIsNilException extends AssertionException {
 
     @Override
     public AssertionErrorType type() {
-        return AssertionErrorType.MISSING_MANDATORY_VALUE;
+        return AssertionErrorType.UUID_IS_NIL;
     }
 
     /**

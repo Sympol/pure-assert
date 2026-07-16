@@ -64,12 +64,6 @@ public final class NumberValueTooHighException extends AssertionException {
          * @param value actual value
          * @return the builder
          */
-        /**
-         * Set the actual value.
-         * 
-         * @param value actual value
-         * @return the builder
-         */
         public NumberValueTooHighExceptionBuilder value(String value) {
             this.value = value;
 

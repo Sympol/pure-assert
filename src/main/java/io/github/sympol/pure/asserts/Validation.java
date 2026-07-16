@@ -17,7 +17,7 @@ public class Validation {
         throw new AssertionError("This class cannot be instantiated.");
     }
 
-    // --- Validation de nullité ---
+    // --- Null validation ---
     /**
      * Ensures that the specified value is not null.
      * 
@@ -31,7 +31,7 @@ public class Validation {
         return value;
     }
 
-    // --- Validation de chaîne non vide ---
+    // --- String validation ---
     /**
      * Ensures that the specified string is not empty or blank.
      * 
@@ -44,7 +44,7 @@ public class Validation {
         return value;
     }
 
-    // --- Validation de collection non vide ---
+    // --- Collection validation ---
     /**
      * Ensures that the specified collection is not empty.
      * 
@@ -58,13 +58,13 @@ public class Validation {
         return collection;
     }
 
-    // --- Validation de map non vide ---
+    // --- Map validation ---
     public static <T extends Map<?, ?>> T requireNonEmpty(T map, String mapName) {
         Assert.notEmpty(mapName, map);
         return map;
     }
 
-    // --- Validation de nombre positif ---
+    // --- Positive number validation ---
     /**
      * Ensures that the specified integer is strictly positive.
      * 
@@ -82,7 +82,7 @@ public class Validation {
         return value;
     }
 
-    // --- Validation de condition personnalisée ---
+    // --- Custom condition validation ---
     /**
      * Ensures that the specified value satisfies a custom condition.
      * 

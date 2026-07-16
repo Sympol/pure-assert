@@ -15,7 +15,7 @@ public class UUIDVersionMismatchException extends AssertionException {
 
     @Override
     public AssertionErrorType type() {
-        return AssertionErrorType.MISSING_MANDATORY_VALUE; // Ou un type spécifique si existant
+        return AssertionErrorType.UUID_VERSION_MISMATCH;
     }
 
     /**
