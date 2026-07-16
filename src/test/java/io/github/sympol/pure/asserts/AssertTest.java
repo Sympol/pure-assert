@@ -781,4 +781,53 @@ class AssertTest {
                 .uniqueElements());
     }
 
+    // MapAsserter - new methods
+    @Test
+    void testMapAsserter_minSize_valid() {
+        Map<String, String> map = Map.of("a", "1", "b", "2", "c", "3");
+        assertDoesNotThrow(() -> Assert.field("config", map).minSize(2));
+    }
+
+    @Test
+    void testMapAsserter_minSize_invalid() {
+        Map<String, String> map = Map.of("a", "1");
+        assertThrows(TooFewElementsException.class, () -> Assert.field("config", map).minSize(2));
+    }
+
+    @Test
+    void testMapAsserter_containsKey_valid() {
+        Map<String, String> map = Map.of("host", "localhost", "port", "8080");
+        assertDoesNotThrow(() -> Assert.field("config", map).containsKey("host"));
+    }
+
+    @Test
+    void testMapAsserter_containsKey_invalid() {
+        Map<String, String> map = Map.of("host", "localhost");
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("config", map).containsKey("port"));
+    }
+
+    @Test
+    void testMapAsserter_containsValue_valid() {
+        Map<String, String> map = Map.of("host", "localhost", "port", "8080");
+        assertDoesNotThrow(() -> Assert.field("config", map).containsValue("localhost"));
+    }
+
+    @Test
+    void testMapAsserter_containsValue_invalid() {
+        Map<String, String> map = Map.of("host", "localhost");
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("config", map).containsValue("production"));
+    }
+
+    @Test
+    void testMapAsserter_chained() {
+        Map<String, String> map = Map.of("host", "localhost", "port", "8080");
+        assertDoesNotThrow(() -> Assert.field("config", map)
+                .notNull()
+                .notEmpty()
+                .minSize(1)
+                .maxSize(10)
+                .containsKey("host")
+                .containsValue("localhost"));
+    }
+
 }

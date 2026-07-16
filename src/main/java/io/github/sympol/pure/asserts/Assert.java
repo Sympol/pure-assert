@@ -2404,6 +2404,64 @@ public final class Assert {
             return this;
         }
 
+        /**
+         * Ensure that the size of the map is at least the given size
+         *
+         * @param minSize
+         *                inclusive min size of the {@link Map}
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         * @throws TooFewElementsException
+         *                                        if the size of value is under the
+         *                                        min size
+         */
+        public MapAsserter minSize(int minSize) {
+            notNull();
+            if (value.size() < minSize) {
+                throw TooFewElementsException.builder().field(field).minSize(minSize).size(value.size()).build();
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the map contains the given key
+         *
+         * @param key
+         *             key to check
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or doesn't
+         *                                        contain the key
+         */
+        public MapAsserter containsKey(Object key) {
+            notNull();
+            if (!value.containsKey(key)) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Map must contain key '" + key + "'");
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the map contains the given value
+         *
+         * @param val
+         *            value to check
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or doesn't
+         *                                        contain the value
+         */
+        public MapAsserter containsValue(Object val) {
+            notNull();
+            if (!value.containsValue(val)) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Map must contain value '" + val + "'");
+            }
+            return this;
+        }
+
         public MapAsserter satisfies(Predicate<Map<?, ?>> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
