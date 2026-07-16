@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -487,6 +488,95 @@ class AssertTest {
                 .notNull()
                 .notEmpty()
                 .maxSize(10));
+    }
+
+    // LocalDateTimeAsserter
+    @Test
+    void testLocalDateTimeAsserter_notNull_valid() {
+        assertDoesNotThrow(() -> Assert.field("date", LocalDateTime.now()).notNull());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_notNull_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("date", (LocalDateTime) null).notNull());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_inPast_valid() {
+        LocalDateTime past = LocalDateTime.now().minusDays(1);
+        assertDoesNotThrow(() -> Assert.field("date", past).inPast());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_inPast_invalid() {
+        LocalDateTime future = LocalDateTime.now().plusDays(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("date", future).inPast());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_inFuture_valid() {
+        LocalDateTime future = LocalDateTime.now().plusDays(1);
+        assertDoesNotThrow(() -> Assert.field("date", future).inFuture());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_inFuture_invalid() {
+        LocalDateTime past = LocalDateTime.now().minusDays(1);
+        assertThrows(NotAfterTimeException.class, () -> Assert.field("date", past).inFuture());
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_after_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime later = now.plusHours(1);
+        assertDoesNotThrow(() -> Assert.field("date", later).after(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_after_invalid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime before = now.minusHours(1);
+        assertThrows(NotAfterTimeException.class, () -> Assert.field("date", before).after(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_before_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime before = now.minusHours(1);
+        assertDoesNotThrow(() -> Assert.field("date", before).before(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_before_invalid() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime later = now.plusHours(1);
+        assertThrows(NotBeforeTimeException.class, () -> Assert.field("date", later).before(now));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_satisfies_valid() {
+        LocalDateTime now = LocalDateTime.now();
+        assertDoesNotThrow(() -> Assert.field("date", now)
+                .satisfies(d -> d.isAfter(LocalDateTime.now().minusDays(1)), "Must be recent"));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_satisfies_invalid() {
+        LocalDateTime old = LocalDateTime.now().minusDays(10);
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("date", old)
+                        .satisfies(d -> d.isAfter(LocalDateTime.now().minusDays(1)), "Must be recent"));
+    }
+
+    @Test
+    void testLocalDateTimeAsserter_chained() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime later = now.plusHours(1);
+        assertDoesNotThrow(() -> Assert.field("date", later)
+                .notNull()
+                .inFuture()
+                .after(now));
     }
 
 }

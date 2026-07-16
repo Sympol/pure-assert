@@ -376,6 +376,32 @@ public final class Assert {
     }
 
     /**
+     * Create a fluent asserter for {@link LocalDateTime}
+     *
+     * <p>
+     * Usage:
+     * </p>
+     *
+     * <pre>
+     * <code>
+     * Assert.field("meetingTime", meetingTime)
+     *   .inFuture()
+     *   .after(startOfBusinessDay);
+     * </code>
+     * </pre>
+     *
+     * @param field
+     *              name of the field to check (will be displayed in exception
+     *              message)
+     * @param input
+     *              value to check
+     * @return A {@link LocalDateTimeAsserter} for this field and value
+     */
+    public static LocalDateTimeAsserter field(String field, LocalDateTime input) {
+        return new LocalDateTimeAsserter(field, input);
+    }
+
+    /**
      * Create a fluent asserter for byte arrays
      *
      * <p>
@@ -2043,6 +2069,148 @@ public final class Assert {
          *                                        false
          */
         public ByteArrayAsserter satisfies(Predicate<byte[]> condition, String errorMessage) {
+            if (value == null || !condition.test(value)) {
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+            }
+            return this;
+        }
+    }
+
+    /**
+     * Asserter dedicated to {@link LocalDateTime} assertions
+     */
+    public static final class LocalDateTimeAsserter {
+
+        private static final String OTHER_FIELD_NAME = "other";
+
+        private final String field;
+        private final LocalDateTime value;
+
+        private LocalDateTimeAsserter(String field, LocalDateTime value) {
+            this.field = field;
+            this.value = value;
+        }
+
+        /**
+         * Get the validated value.
+         *
+         * @return The validated value
+         */
+        public LocalDateTime value() {
+            return value;
+        }
+
+        /**
+         * Ensure that the value is not null
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         */
+        public LocalDateTimeAsserter notNull() {
+            Assert.notNull(field, value);
+            return this;
+        }
+
+        /**
+         * Ensure that the value is in the past or at current time
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         * @throws NotBeforeTimeException
+         *                                        if the value is in the future
+         */
+        public LocalDateTimeAsserter inPast() {
+            notNull();
+            if (value.isAfter(LocalDateTime.now())) {
+                throw NotBeforeTimeException.notBefore()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(Instant.now());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is in the future or at current time
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         * @throws NotAfterTimeException
+         *                                        if the value is in the past
+         */
+        public LocalDateTimeAsserter inFuture() {
+            notNull();
+            if (value.isBefore(LocalDateTime.now())) {
+                throw NotAfterTimeException.notAfter()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(Instant.now());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is after the given date-time
+         *
+         * @param other
+         *              exclusive after date-time
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotAfterTimeException
+         *                                        if the value is not after the other
+         */
+        public LocalDateTimeAsserter after(LocalDateTime other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (!value.isAfter(other)) {
+                throw NotAfterTimeException.strictlyNotAfter()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atZone(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is before the given date-time
+         *
+         * @param other
+         *              exclusive before date-time
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if input or other are null
+         * @throws NotBeforeTimeException
+         *                                        if the value is not before the other
+         */
+        public LocalDateTimeAsserter before(LocalDateTime other) {
+            notNull();
+            Assert.notNull(OTHER_FIELD_NAME, other);
+            if (!value.isBefore(other)) {
+                throw NotBeforeTimeException.strictlyNotBefore()
+                        .value(value.atZone(ZoneId.systemDefault()).toInstant())
+                        .field(field)
+                        .other(other.atZone(ZoneId.systemDefault()).toInstant());
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value satisfies the given condition
+         *
+         * @param condition
+         *                     condition to satisfy
+         * @param errorMessage
+         *                     error message if not satisfied
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or condition is
+         *                                        false
+         */
+        public LocalDateTimeAsserter satisfies(Predicate<LocalDateTime> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
             }
