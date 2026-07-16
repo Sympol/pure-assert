@@ -382,4 +382,59 @@ class AssertTest {
         assertThrows(NotAfterTimeException.class, () -> Assert.field("date", past).inFuture());
     }
 
+    // EnumAsserter
+    private enum Status { ACTIVE, INACTIVE, PENDING }
+
+    @Test
+    void testEnumAsserter_notNull_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE).notNull());
+    }
+
+    @Test
+    void testEnumAsserter_notNull_invalid() {
+        assertThrows(MissingMandatoryValueException.class, () -> Assert.field("status", (Status) null).notNull());
+    }
+
+    @Test
+    void testEnumAsserter_isIn_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE).isIn(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_isIn_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("status", Status.PENDING).isIn(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_isNotIn_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE).isNotIn(Status.INACTIVE, Status.PENDING));
+    }
+
+    @Test
+    void testEnumAsserter_isNotIn_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("status", Status.INACTIVE).isNotIn(Status.ACTIVE, Status.INACTIVE));
+    }
+
+    @Test
+    void testEnumAsserter_satisfies_valid() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE)
+                .satisfies(s -> s == Status.ACTIVE, "Must be ACTIVE"));
+    }
+
+    @Test
+    void testEnumAsserter_satisfies_invalid() {
+        assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("status", Status.INACTIVE)
+                        .satisfies(s -> s == Status.ACTIVE, "Must be ACTIVE"));
+    }
+
+    @Test
+    void testEnumAsserter_chained() {
+        assertDoesNotThrow(() -> Assert.field("status", Status.ACTIVE)
+                .notNull()
+                .isIn(Status.ACTIVE, Status.INACTIVE, Status.PENDING));
+    }
+
 }

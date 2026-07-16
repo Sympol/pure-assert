@@ -3,10 +3,13 @@ package io.github.sympol.pure.asserts;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -370,6 +373,33 @@ public final class Assert {
      */
     public static LocalDateAsserter field(String field, LocalDate input) {
         return new LocalDateAsserter(field, input);
+    }
+
+    /**
+     * Create a fluent asserter for enum values
+     *
+     * <p>
+     * Usage:
+     * </p>
+     *
+     * <pre>
+     * <code>
+     * Assert.field("status", status)
+     *   .isIn(Status.ACTIVE, Status.INACTIVE);
+     * </code>
+     * </pre>
+     *
+     * @param field
+     *              name of the field to check (will be displayed in exception
+     *              message)
+     * @param input
+     *              enum value to check
+     * @param <E>
+     *              the enum type
+     * @return An {@link EnumAsserter} for this field and value
+     */
+    public static <E extends Enum<E>> EnumAsserter<E> field(String field, E input) {
+        return new EnumAsserter<>(field, input);
     }
 
     /**
@@ -1788,6 +1818,106 @@ public final class Assert {
         }
 
         public MapAsserter satisfies(Predicate<Map<?, ?>> condition, String errorMessage) {
+            if (value == null || !condition.test(value)) {
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+            }
+            return this;
+        }
+    }
+
+    /**
+     * Asserter dedicated to enum assertions
+     *
+     * @param <E> the enum type
+     */
+    public static final class EnumAsserter<E extends Enum<E>> {
+
+        private final String field;
+        private final E value;
+
+        private EnumAsserter(String field, E value) {
+            this.field = field;
+            this.value = value;
+        }
+
+        /**
+         * Get the validated value.
+         *
+         * @return The validated value
+         */
+        public E value() {
+            return value;
+        }
+
+        /**
+         * Ensure that the value is not null
+         *
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null
+         */
+        public EnumAsserter<E> notNull() {
+            Assert.notNull(field, value);
+            return this;
+        }
+
+        /**
+         * Ensure that the value is one of the allowed values
+         *
+         * @param allowed
+         *                allowed enum values
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or not in the
+         *                                        allowed values
+         */
+        @SafeVarargs
+        public final EnumAsserter<E> isIn(E... allowed) {
+            notNull();
+
+            Set<E> allowedSet = Set.of(allowed);
+            if (!allowedSet.contains(value)) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Value must be one of " + allowedSet + " but was " + value);
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value is not one of the disallowed values
+         *
+         * @param disallowed
+         *                   disallowed enum values
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or in the
+         *                                        disallowed values
+         */
+        @SafeVarargs
+        public final EnumAsserter<E> isNotIn(E... disallowed) {
+            notNull();
+
+            Set<E> disallowedSet = Set.of(disallowed);
+            if (disallowedSet.contains(value)) {
+                throw MissingMandatoryValueException.forBadValue(field,
+                        "Value must not be one of " + disallowedSet + " but was " + value);
+            }
+            return this;
+        }
+
+        /**
+         * Ensure that the value satisfies the given condition
+         *
+         * @param condition
+         *                     condition to satisfy
+         * @param errorMessage
+         *                     error message if not satisfied
+         * @return The current asserter
+         * @throws MissingMandatoryValueException
+         *                                        if the value is null or condition is
+         *                                        false
+         */
+        public EnumAsserter<E> satisfies(Predicate<E> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
                 throw MissingMandatoryValueException.forBadValue(field, errorMessage);
             }
