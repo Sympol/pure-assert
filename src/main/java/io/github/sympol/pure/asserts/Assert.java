@@ -488,6 +488,7 @@ public final class Assert {
 
         private final String field;
         private final String value;
+        private String customMessage;
 
         private StringAsserter(String field, String value) {
             this.field = field;
@@ -514,6 +515,25 @@ public final class Assert {
         }
 
         /**
+         * Set a custom error message for the next assertion.
+         *
+         * @param message custom error message
+         * @return The current asserter
+         */
+        public StringAsserter withMessage(String message) {
+            this.customMessage = message;
+            return this;
+        }
+
+        private String errorMessage(String defaultMessage) {
+            return customMessage != null ? customMessage : defaultMessage;
+        }
+
+        private void resetMessage() {
+            this.customMessage = null;
+        }
+
+        /**
          * Ensure that the value is not null
          *
          * @return The current asserter
@@ -537,6 +557,11 @@ public final class Assert {
             notNull();
 
             if (value.isBlank()) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw MissingMandatoryValueException.forBlankValue(field);
             }
 
@@ -565,6 +590,11 @@ public final class Assert {
             notNull();
 
             if (value.length() < length) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw StringTooShortException.builder().field(field).value(value).minLength(length).build();
             }
 
@@ -586,6 +616,11 @@ public final class Assert {
             }
 
             if (value.length() > length) {
+                if (customMessage != null) {
+                    String msg = customMessage;
+                    resetMessage();
+                    throw MissingMandatoryValueException.forBadValue(field, msg);
+                }
                 throw StringTooLongException.builder().field(field).value(value).maxLength(length).build();
             }
 
@@ -605,7 +640,7 @@ public final class Assert {
          */
         public StringAsserter matches(Pattern pattern, String errorMessage) {
             if (value == null || !pattern.matcher(value).find()) {
-                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage(errorMessage));
             }
             return this;
         }
@@ -624,7 +659,7 @@ public final class Assert {
          */
         public StringAsserter satisfies(Predicate<String> condition, String errorMessage) {
             if (value == null || !condition.test(value)) {
-                throw MissingMandatoryValueException.forBadValue(field, errorMessage);
+                throw MissingMandatoryValueException.forBadValue(field, errorMessage(errorMessage));
             }
             return this;
         }

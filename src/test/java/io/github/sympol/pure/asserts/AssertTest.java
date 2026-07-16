@@ -665,4 +665,35 @@ class AssertTest {
         assertEquals(col, result);
     }
 
+    // withMessage() - custom error messages
+    @Test
+    void testStringAsserter_withMessage_notBlank() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("name", "").withMessage("Le nom ne peut pas être vide").notBlank());
+        assertEquals("Le nom ne peut pas être vide", ex.getMessage());
+    }
+
+    @Test
+    void testStringAsserter_withMessage_minLength() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("code", "AB").withMessage("Le code doit avoir au moins 3 caractères").minLength(3));
+        assertEquals("Le code doit avoir au moins 3 caractères", ex.getMessage());
+    }
+
+    @Test
+    void testStringAsserter_withMessage_maxLength() {
+        MissingMandatoryValueException ex = assertThrows(MissingMandatoryValueException.class,
+                () -> Assert.field("code", "ABCDE").withMessage("Le code ne peut pas dépasser 3 caractères").maxLength(3));
+        assertEquals("Le code ne peut pas dépasser 3 caractères", ex.getMessage());
+    }
+
+    @Test
+    void testStringAsserter_withMessage_resets_after_success() {
+        String result = Assert.field("name", "Alice")
+                .withMessage("custom message")
+                .notBlank()
+                .value();
+        assertEquals("Alice", result);
+    }
+
 }
