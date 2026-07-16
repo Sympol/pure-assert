@@ -65,7 +65,7 @@ public class User {
 | **Numbers** | `min(n)`, `max(n)`, `isGreaterThanOrEqualTo(n)`, `isLessThanOrEqualTo(n)`, `positive()`, `strictlyPositive()`, `satisfies(predicate)` |
 | **Collections** | `notEmpty()`, `minSize(n)`, `maxSize(n)`, `noNullElement()`, `contains(element)`, `uniqueElements()`, `satisfies(predicate)` |
 | **Arrays** | `notEmpty()`, `maxSize(n)`, `noNullElement()`, `satisfies(predicate)` |
-| **Maps** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
+| **Maps** | `notEmpty()`, `minSize(n)`, `maxSize(n)`, `containsKey(key)`, `containsValue(value)`, `satisfies(predicate)` |
 | **Enums** | `isIn(values...)`, `isNotIn(values...)`, `satisfies(predicate)` |
 | **byte[]** | `notEmpty()`, `maxSize(n)`, `satisfies(predicate)` |
 | **Dates** | `inPast()`, `inFuture()`, `after(date)`, `before(date)`, `satisfies(predicate)` |
